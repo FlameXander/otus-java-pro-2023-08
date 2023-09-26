@@ -1,0 +1,7 @@
+allprojects {
+    tasks.withType(JavaCompile) {
+        options.with {
+            encoding = 'UTF-8'
+        }
+    }
+}
