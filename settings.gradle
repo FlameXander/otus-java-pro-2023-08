@@ -4,4 +4,5 @@ include 'lesson-03-generics'
 include 'lesson-06-annotations'
 include 'lesson-07-functional-programming'
 include 'lesson-13-behavioural-patterns'
+include 'lesson-14-structural-patterns'
 
