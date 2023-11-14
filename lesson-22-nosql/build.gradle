@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+
+    // cassandra
+    implementation 'com.datastax.oss:java-driver-core:4.17.0'
+    implementation 'com.datastax.oss:java-driver-query-builder:4.17.0'
+
+    // mongo
+    implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+    implementation 'dev.morphia.morphia:morphia-core:2.4.7'
+}
+
+test {
+    useJUnitPlatform()
+}
