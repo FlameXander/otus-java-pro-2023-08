@@ -1,4 +1,4 @@
-package ru.otus.lesson6.annotations;
+package annotations.custom;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;

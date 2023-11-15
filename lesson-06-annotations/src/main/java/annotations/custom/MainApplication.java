@@ -1,4 +1,4 @@
-package ru.otus.lesson6.annotations;
+package annotations.custom;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -9,7 +9,8 @@ public class MainApplication {
 
         Class<Person> cls = Person.class;
         Class<Person> cls1 = (Class<Person>) person.getClass();
-        Class<Person> cls2 = (Class<Person>) MainApplication.class.getClassLoader().loadClass("ru.otus.lesson6.annotations.Person");
+        Class<Person> cls2 = (Class<Person>) MainApplication.class.getClassLoader().loadClass(
+                "annotations.custom.Person");
         System.out.println(cls.getName());
         System.out.println(cls.getSimpleName());
 
@@ -36,7 +37,4 @@ public class MainApplication {
         System.out.println(person);
     }
 
-    public void foo(Person person) {
-        // .zxcvxc
-    }
 }
