@@ -35,7 +35,6 @@ public final class MongoClient implements AutoCloseable {
     }
 
     public void useDatabase(String databaseName) {
-
         log("useDatabase(%s)", databaseName);
         currentDatabase = client.getDatabase(databaseName);
     }

@@ -28,8 +28,7 @@ dependencies {
 
     // mongo-reactive
     implementation 'org.mongodb:mongodb-driver-reactivestreams:4.11.1'
-}
 
-test {
-    useJUnitPlatform()
+    // redis
+    implementation 'redis.clients:jedis:5.0.2'
 }
