@@ -19,7 +19,7 @@ public class RedisDemo {
 
     private static void foo(RedisClient client) {
         dataTypeString_KeyValue(client);
-        dataTypeLists_Stack(client);
+        dataTypeLists_Queue(client);
         dataTypeSets(client);
         dataTypeHashes(client);
         dataTypeSortedSets(client);
@@ -35,7 +35,7 @@ public class RedisDemo {
         System.out.format("Set/get: key='%s', value='%s', response='%s'\n", key, value, response);
     }
 
-    private static void dataTypeLists_Stack(RedisClient client) {
+    private static void dataTypeLists_Queue(RedisClient client) {
         System.out.println("\n--- Data type 'Lists' ---");
 
         String key = "queue#tasks";

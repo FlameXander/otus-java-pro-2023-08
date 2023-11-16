@@ -36,6 +36,5 @@ dependencies {
     implementation 'org.neo4j.driver:neo4j-java-driver:4.4.12'
     implementation 'org.neo4j:neo4j:4.4.23'
     implementation 'org.neo4j:neo4j-ogm-core:3.1.22'
-    implementation 'io.netty:netty-buffer:4.1.96.Final'
     implementation 'com.voodoodyne.jackson.jsog:jackson-jsog:1.1.2'
 }

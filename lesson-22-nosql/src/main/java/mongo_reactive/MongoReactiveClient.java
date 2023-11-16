@@ -10,15 +10,13 @@ import com.mongodb.reactivestreams.client.MongoCollection;
 import com.mongodb.reactivestreams.client.MongoDatabase;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import mongo_reactive.subscribers.adapters.AdapterFactory;
 import mongo_reactive.subscribers.SetSubscriber;
 import mongo_reactive.subscribers.SubscriberFactory;
+import mongo_reactive.subscribers.adapters.AdapterFactory;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.reactivestreams.Publisher;
-
-import java.util.Iterator;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MongoReactiveClient implements AutoCloseable {
