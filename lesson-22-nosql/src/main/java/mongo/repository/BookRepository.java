@@ -33,7 +33,7 @@ public class BookRepository {
     }
 
     public void deleteCollection() {
-        client.deleteCollection("COLLECTION_NAME");
+        client.deleteCollection(COLLECTION_NAME);
     }
 
     public String insert(Book book) {
@@ -67,7 +67,7 @@ public class BookRepository {
         return createBooks(client.find(filter, COLLECTION_NAME));
     }
 
-    public long deleteByTitle(String title) {
+    public long deleteAllByTitle(String title) {
         Bson filter = Filters.eq("title", title);
         DeleteResult res = client.delete(filter, COLLECTION_NAME);
         return res.getDeletedCount();

@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '2.5.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group = 'org.example'
@@ -21,6 +23,11 @@ dependencies {
     // mongo
     implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
     implementation 'dev.morphia.morphia:morphia-core:2.4.7'
+    implementation 'org.mongodb:mongodb-driver-core:4.11.1'
+    implementation 'org.mongodb:bson:4.11.1'
+
+    // mongo-reactive
+    implementation 'org.mongodb:mongodb-driver-reactivestreams:4.11.1'
 }
 
 test {

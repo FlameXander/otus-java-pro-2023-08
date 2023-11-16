@@ -16,24 +16,18 @@ public class MongoDemo {
 
     public static void main(String... args) {
         try (MongoClient client = MongoClient.create(HOST_NAME, PORT)) {
-            client.createDatabase(DATABASE_NAME);
             client.useDatabase(DATABASE_NAME);
-
             foo(client);
-
             client.deleteDatabase();
         }
     }
 
     private static void foo(MongoClient client) {
-        System.out.println("Existed databases:");
-        client.getDatabaseNames().forEach(System.out::println);
-
-        System.out.format("\nExisted collections in database '%s':\n", client.getCurrentDatabasedName());
-        client.getCollectionNames().forEach(System.out::println);
+        printDatabaseNames(client);
 
         BookRepository bookRepository = new BookRepository(client);
         bookRepository.createCollection();
+        printCollections(client);
 
         Book book = Book.builder()
                         .title("Effective Java")
@@ -41,36 +35,66 @@ public class MongoDemo {
                         .subject("Programming")
                         .build();
 
-        String id = bookRepository.insert(book);
-        System.out.format("\nInsert book id = '%s'\n", id);
+        String id = insertBook(book, bookRepository);
+        insertBook(Book.builder()
+                       .title("Design Patterns")
+                       .author("Erich Gamma")
+                       .subject("Programming")
+                       .build(), bookRepository);
 
-        bookRepository.insert(Book.builder()
-                                  .title("Design Patterns")
-                                  .author("Erich Gamma")
-                                  .subject("Programming")
-                                  .build());
+        printAllBooks(bookRepository);
 
-        System.out.format("\nBooks in collection '%s':\n", BookRepository.COLLECTION_NAME);
-        bookRepository.findAll().forEach(System.out::println);
+        Book updateBook = book.toBuilder()
+                              .id(id)
+                              .publisher("O'Reilly")
+                              .build();
+        updateBook(updateBook, bookRepository);
 
-        Book updatedBook = book.toBuilder()
-                               .id(id)
-                               .publisher("O'Reilly")
-                               .build();
-        bookRepository.update(updatedBook);
-
-        System.out.format("Books in collection '%s':\n", BookRepository.COLLECTION_NAME);
-        bookRepository.findAll().forEach(System.out::println);
-
-        System.out.format("\nBooks in collection '%s' with title '%s':\n",
-                          BookRepository.COLLECTION_NAME,
-                          book.getTitle());
-        bookRepository.findAllByTitle(book.getTitle()).forEach(System.out::println);
-
-        long totalRemoved = bookRepository.deleteByTitle("Effective Java");
-        System.out.format("\nTotal %d documents were removed", totalRemoved);
+        printAllBooks(bookRepository);
+        findAllByTitle(book, bookRepository);
+        deleteAllByTitle(book, bookRepository);
 
         bookRepository.deleteCollection();
+    }
+
+    private static void printDatabaseNames(MongoClient client) {
+        System.out.println("Existed databases:");
+        client.getDatabaseNames().forEach(System.out::println);
+    }
+
+    private static void printCollections(MongoClient client) {
+        System.out.format("\nExisted collections in database '%s':\n", client.getCurrentDatabasedName());
+        client.getCollectionNames().forEach(System.out::println);
+    }
+
+    private static String insertBook(Book book, BookRepository bookRepository) {
+        String id = bookRepository.insert(book);
+        System.out.format("\nInsert book id = '%s'\n", id);
+        return id;
+    }
+
+    private static void printAllBooks(BookRepository bookRepository) {
+        System.out.format("\nBooks in collection '%s':\n", BookRepository.COLLECTION_NAME);
+        bookRepository.findAll().forEach(System.out::println);
+    }
+
+    private static void updateBook(Book book, BookRepository bookRepository) {
+        bookRepository.update(book);
+    }
+
+    private static void findAllByTitle(Book book, BookRepository bookRepository) {
+        System.out.format("\nBooks in collection '%s' with title '%s':\n",
+                          BookRepository.COLLECTION_NAME, book.getTitle());
+        bookRepository.findAllByTitle(book.getTitle()).forEach(System.out::println);
+    }
+
+    private static void deleteAllByTitle(Book book, BookRepository bookRepository) {
+        long totalRemoved = bookRepository.deleteAllByTitle(book.getTitle());
+        System.out.format("\nTotal %d documents were removed\n", totalRemoved);
+
+        System.out.format("\nBooks in collection '%s' with title '%s':\n",
+                          BookRepository.COLLECTION_NAME, book.getTitle());
+        bookRepository.findAllByTitle(book.getTitle()).forEach(System.out::println);
     }
 
 }

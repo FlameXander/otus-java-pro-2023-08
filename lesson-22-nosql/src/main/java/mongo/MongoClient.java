@@ -1,6 +1,7 @@
 package mongo;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -21,24 +22,21 @@ import java.util.Set;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MongoClient implements AutoCloseable {
 
-    @Getter
     private final com.mongodb.client.MongoClient client;
     private MongoDatabase currentDatabase;
 
     public static MongoClient create(String hostname, int port) {
-        com.mongodb.client.MongoClient client = MongoClients.create(String.format("mongodb://%s:%d", hostname, port));
-        return new MongoClient(client);
+        String connectionString = String.format("mongodb://%s:%d", hostname, port);
+        return new MongoClient(MongoClients.create(connectionString));
     }
 
     public String getCurrentDatabasedName() {
         return currentDatabase == null ? null : currentDatabase.getName();
     }
 
-    public void createDatabase(String databaseName) {
-        client.getDatabase(databaseName);
-    }
-
     public void useDatabase(String databaseName) {
+
+        log("useDatabase(%s)", databaseName);
         currentDatabase = client.getDatabase(databaseName);
     }
 
@@ -50,10 +48,12 @@ public final class MongoClient implements AutoCloseable {
     }
 
     public Set<String> getDatabaseNames() {
+        log("getDatabaseNames()");
         return client.listDatabaseNames().into(new HashSet<>());
     }
 
     public Set<String> getCollectionNames() {
+        log("getCollectionNames()");
         return currentDatabase.listCollectionNames().into(new HashSet<>());
     }
 
@@ -91,10 +91,14 @@ public final class MongoClient implements AutoCloseable {
         return currentDatabase.getCollection(collectionName).deleteMany(filter);
     }
 
+    private static void log(String format, Object... args) {
+        System.out.format("--- [%s] " + format + '\n', MongoClient.class.getSimpleName(), args);
+    }
+
     // ---------- AutoCloseable ----------
 
     @Override
     public void close() {
-
+        client.close();
     }
 }
