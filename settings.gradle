@@ -7,4 +7,5 @@ include 'lesson-13-behavioural-patterns'
 include 'lesson-14-structural-patterns'
 include 'lesson-21-references'
 include 'lesson-22-nosql'
+include 'lesson-35-concurrent-collections'
 
